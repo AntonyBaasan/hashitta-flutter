@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'models/tab_panel_info.dart';
+import 'pages/home_page.dart';
+import 'pages/settings_page.dart';
+import 'pages/insert_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,10 +32,9 @@ class _BottomNavigationBarExampleState
     extends State<BottomNavigationBarExample> {
   int _selectedIndex = 0;
 
-  static const List<TabPanelInfo> _widgetOptions = <TabPanelInfo>[
-    TabPanelInfo(title: 'business', widget: Text('Index 0: Business')),
-    TabPanelInfo(title: 'school', widget: Text('Index 1: School')),
-    TabPanelInfo(title: 'world', widget: Text('Index 2: World')),
+  static List<TabPanelInfo> _widgetOptions = <TabPanelInfo>[
+    TabPanelInfo(title: 'Home', widget: HomePage()),
+    TabPanelInfo(title: 'Settings', widget: SettingsPage()),
   ];
 
   void _onItemTapped(int index) {
@@ -47,29 +49,53 @@ class _BottomNavigationBarExampleState
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(_widgetOptions.elementAt(_selectedIndex).title),
+        centerTitle: true,
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex).widget,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.circle),
-            label: 'World',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // open insert record page
+        },
+        tooltip: 'Increment',
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add, size: 38),
+        elevation: 4.0,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+          height: 60,
+          shape: const CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    _onItemTapped(0);
+                  },
+                  icon: const Icon(Icons.home)),
+              IconButton(
+                  onPressed: () {
+                    _onItemTapped(1);
+                  },
+                  icon: const Icon(Icons.settings))
+            ],
+          )
+          // child: const <BottomNavigationBarItem>[
+          //   BottomNavigationBarItem(
+          //     icon: Icon(Icons.home),
+          //     label: 'Home',
+          //   ),
+          //   BottomNavigationBarItem(
+          //     icon: Icon(Icons.settings),
+          //     label: 'Settings',
+          //   ),
+          // ],
+          // currentIndex: _selectedIndex,
+          // selectedItemColor: Colors.amber[800],
+          // onTap: _onItemTapped,
+          ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
