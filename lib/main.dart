@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hashitta/state/main_state.dart';
+import 'package:provider/provider.dart';
 
 import 'models/tab_panel_info.dart';
 import 'pages/home_page.dart';
@@ -14,8 +16,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: BottomNavigationBarExample(),
+    return ChangeNotifierProvider(
+      create: (context) => MainState(),
+      child: const MaterialApp(home: BottomNavigationBarExample()),
     );
   }
 }
@@ -45,6 +48,8 @@ class _BottomNavigationBarExampleState
 
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<MainState>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -57,6 +62,7 @@ class _BottomNavigationBarExampleState
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // open insert record page
+          navigateToInserPage(state);
         },
         tooltip: 'Increment',
         shape: const CircleBorder(),
@@ -81,21 +87,16 @@ class _BottomNavigationBarExampleState
                   },
                   icon: const Icon(Icons.settings))
             ],
-          )
-          // child: const <BottomNavigationBarItem>[
-          //   BottomNavigationBarItem(
-          //     icon: Icon(Icons.home),
-          //     label: 'Home',
-          //   ),
-          //   BottomNavigationBarItem(
-          //     icon: Icon(Icons.settings),
-          //     label: 'Settings',
-          //   ),
-          // ],
-          // currentIndex: _selectedIndex,
-          // selectedItemColor: Colors.amber[800],
-          // onTap: _onItemTapped,
-          ), // This trailing comma makes auto-formatting nicer for build methods.
+          )), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Future<void> navigateToInserPage(MainState state) async {
+    var response = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => InsertPage(label: "Hello from Main")));
+    if (response == null) {
+      state.setLabel("Clicked back button");
+    }
+    state.setLabel(response as String);
   }
 }
