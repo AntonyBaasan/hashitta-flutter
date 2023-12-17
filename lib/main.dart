@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hashitta/models/run_record.dart';
 import 'package:hashitta/state/main_state.dart';
 import 'package:provider/provider.dart';
 
@@ -92,11 +93,12 @@ class _BottomNavigationBarExampleState
   }
 
   Future<void> navigateToInserPage(MainState state) async {
-    var response = await Navigator.of(context).push(MaterialPageRoute(
+    RunRecord record = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => InsertPage(label: "Hello from Main")));
-    if (response == null) {
+    if (record == null) {
       state.setLabel("Clicked back button");
     }
-    state.setLabel(response as String);
+    state.insertRunRecord(record);
+    state.setLabel(record.toJson().toString());
   }
 }
