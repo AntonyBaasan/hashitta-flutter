@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class RunRecord {
-  final String id;
-  final TimeOfDay time;
+  String? id;
+  final Duration time;
   final DateTime createdAt;
   final String runner;
   final String category;
 
-  const RunRecord(
-      {required this.id,
+  RunRecord(
+      {this.id,
       required this.time,
       required this.createdAt,
       required this.runner,

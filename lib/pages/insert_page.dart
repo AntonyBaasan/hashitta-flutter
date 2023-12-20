@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
+import 'package:provider/provider.dart';
+import 'package:hashitta/state/main_state.dart';
+import '../widgets/duration_selector.dart';
 import '../widgets/time_selector.dart';
 import '../models/run_record.dart';
 
@@ -10,6 +12,8 @@ class InsertPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<MainState>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Insert Time'),
@@ -18,18 +22,29 @@ class InsertPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            TimeSeletor(
-              timeChanged: (TimeOfDay time) {
-                print('time changed' + time.toString());
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _buildCategorySelectionButtons(
+                  state.categories, state.currCategory),
             ),
-            Text(this.label),
+            DurationSeletor(
+                initDuration: state.lastDuration,
+                onChanged: (Duration duration) {
+                  print('duration changed' + duration.toString());
+                  state.lastDuration = duration;
+                  state.notifyListeners();
+                }),
+            // TimeSeletor(
+            //   timeChanged: (Duration duration) {
+            //     print('duration changed' + duration.toString());
+            //     state.lastDuration = duration;
+            //   },
+            // ),
             ElevatedButton(
               child: Text('Save'),
               onPressed: () {
                 var newRecord = RunRecord(
-                    id: Uuid().v1().toString(),
-                    time: TimeOfDay.now(),
+                    time: state.lastDuration,
                     createdAt: DateTime.now(),
                     category: 'caterory1',
                     runner: 'runner1');
@@ -40,5 +55,20 @@ class InsertPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildCategorySelectionButtons(
+      List<String> list, String selected) {
+    List<Widget> buttons = [];
+    for (var item in list) {
+      buttons.add(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {},
+          child: Text(item),
+        ),
+      ));
+    }
+    return buttons;
   }
 }

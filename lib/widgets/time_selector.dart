@@ -4,7 +4,7 @@ import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 class TimeSeletor extends StatelessWidget {
   const TimeSeletor({Key? key, required this.timeChanged});
 
-  final ValueSetter<TimeOfDay> timeChanged;
+  final ValueSetter<Duration> timeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +34,12 @@ class TimeSeletor extends StatelessWidget {
               itemHeight: 80,
               isForce2Digits: true,
               time: DateTime(0, 0, 0, 0, 9, 19),
-              onTimeChange: (time) {
-                this.timeChanged(TimeOfDay.fromDateTime(time));
+              onTimeChange: (DateTime time) {
+                var duration = Duration(
+                    hours: time.hour,
+                    minutes: time.minute,
+                    seconds: time.second);
+                this.timeChanged(duration);
               },
             )
           ],

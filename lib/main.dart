@@ -99,6 +99,6 @@ class _BottomNavigationBarExampleState
       state.setLabel("Clicked back button");
     }
     state.insertRunRecord(record);
-    state.setLabel(record.toJson().toString());
+    state.getAllRunRecord();
   }
 }
