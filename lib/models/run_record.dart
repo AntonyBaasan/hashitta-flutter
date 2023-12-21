@@ -4,14 +4,14 @@ class RunRecord {
   String? id;
   final Duration time;
   final DateTime createdAt;
-  final String runner;
   final String category;
+  String? runner;
 
   RunRecord(
       {this.id,
       required this.time,
       required this.createdAt,
-      required this.runner,
+      this.runner,
       required this.category});
 
   factory RunRecord.fromJson(Map<String, dynamic> json) => new RunRecord(

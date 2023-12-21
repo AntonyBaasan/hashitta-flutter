@@ -24,8 +24,7 @@ class InsertPage extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildCategorySelectionButtons(
-                  state.categories, state.currCategory),
+              children: _buildCategorySelectionButtons(state),
             ),
             DurationSeletor(
                 initDuration: state.lastDuration,
@@ -44,10 +43,10 @@ class InsertPage extends StatelessWidget {
               child: Text('Save'),
               onPressed: () {
                 var newRecord = RunRecord(
-                    time: state.lastDuration,
-                    createdAt: DateTime.now(),
-                    category: 'caterory1',
-                    runner: 'runner1');
+                  time: state.lastDuration,
+                  createdAt: DateTime.now(),
+                  category: state.currCategory,
+                );
                 Navigator.pop(context, newRecord);
               },
             ),
@@ -57,16 +56,22 @@ class InsertPage extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildCategorySelectionButtons(
-      List<String> list, String selected) {
+  List<Widget> _buildCategorySelectionButtons(MainState state) {
+    List<String> caterories = state.categories;
+    String selected = state.currCategory;
     List<Widget> buttons = [];
-    for (var item in list) {
+    for (var item in caterories) {
       buttons.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
-          onPressed: () {},
-          child: Text(item),
-        ),
+            onPressed: () {
+              state.setCategory(item);
+            },
+            child: Text(item),
+            style: ElevatedButton.styleFrom(
+              backgroundColor:
+                  item == selected ? Colors.lightBlue : Colors.white,
+            )),
       ));
     }
     return buttons;

@@ -33,21 +33,26 @@ class MainState extends ChangeNotifier {
     notifyListeners();
   }
 
+  // user info
+  String currUser = 'user1';
+
   // run record
   RunRecordService _runRecordService = new RunRecordService();
   List<RunRecord> visibleRecords = [];
 
-  void getAllRunRecord() async {
+  void refreshAllRunRecord() async {
     visibleRecords = await _runRecordService.getRunRecords();
     notifyListeners();
   }
 
   void insertRunRecord(RunRecord record) async {
+    record.runner = currUser;
     await _runRecordService.insertRunRecord(record);
     notifyListeners();
   }
 
   void removeRunRecord(RunRecord record) async {
+    // print(record.toJson().toString());
     if (record.id != null) {
       await _runRecordService.deleteRunRecord(record.id);
     }
