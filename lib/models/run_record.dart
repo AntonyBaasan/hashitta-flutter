@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class RunRecord {
   String? id;
   final Duration duration;

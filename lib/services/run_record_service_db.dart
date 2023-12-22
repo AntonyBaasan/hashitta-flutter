@@ -8,11 +8,6 @@ import 'abstract_run_record_service.dart';
 class RunRecordServiceDb implements AbstractRunRecordService {
   final String _tableName = 'run_records';
   Database? _database;
-  RunRecordServiceDb() {
-    initDatabase().then((db) {
-      _database = db;
-    });
-  }
 
   Future<Database> initDatabase() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -26,25 +21,32 @@ class RunRecordServiceDb implements AbstractRunRecordService {
   }
 
   Future<List<RunRecord>> getRunRecords() async {
-    final Database? db = await _database;
-    if (db == null) {
-      throw Exception('Database is not initialized');
+    if (_database == null) {
+      _database = await initDatabase();
+      if (_database == null) {
+        throw Exception('Database is not initialized');
+      }
     }
-    final List<Map<String, dynamic>> maps = await db.query(_tableName);
+    final List<Map<String, dynamic>>? maps = await _database?.query(_tableName);
 
+    if (maps == null) {
+      return [];
+    }
     return List.generate(maps.length, (index) {
       return RunRecord.fromJson(maps[index]);
     });
   }
 
   Future<RunRecord> insertRunRecord(RunRecord record) async {
-    final Database? db = await _database;
-    if (db == null) {
-      throw Exception('Database is not initialized');
+    if (_database == null) {
+      _database = await initDatabase();
+      if (_database == null) {
+        throw Exception('Database is not initialized');
+      }
     }
     var id = Uuid().v1().toString();
     record.id = id;
-    await db.insert(
+    await _database?.insert(
       _tableName,
       record.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -53,11 +55,13 @@ class RunRecordServiceDb implements AbstractRunRecordService {
   }
 
   Future<bool> deleteRunRecord(String? id) async {
-    final Database? db = await _database;
-    if (db == null) {
-      throw Exception('Database is not initialized');
+    if (_database == null) {
+      _database = await initDatabase();
+      if (_database == null) {
+        throw Exception('Database is not initialized');
+      }
     }
-    if (await db.delete(
+    if (await _database?.delete(
           _tableName,
           where: "id = ?",
           whereArgs: [id],

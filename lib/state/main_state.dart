@@ -6,6 +6,9 @@ import '../models/run_record.dart';
 import '../services/abstract_run_record_service.dart';
 
 class MainState extends ChangeNotifier {
+  MainState() {
+    refreshAllRunRecord();
+  }
   // counter
   int _counter = 0;
   int get counter => _counter;
