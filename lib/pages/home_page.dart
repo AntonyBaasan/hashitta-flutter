@@ -12,6 +12,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = context.watch<MainState>();
+    state.refreshAllRunRecord();
+
     return Scaffold(
       body: Column(
         children: [
@@ -33,13 +35,21 @@ class HomePage extends StatelessWidget {
                     children: [
                       // Text(record.id ?? ""),
                       Container(
-                          width: 100,
+                          width: 90,
                           child: Text(
                               DateFormat.yMMMd().format(record.createdAt))),
-                      Container(width: 100, child: Text(record.category)),
+                      VerticalDivider(thickness: 1, width: 1),
+                      Container(
+                          alignment: Alignment.center,
+                          width: 50,
+                          child: Text(record.category)),
+                      VerticalDivider(thickness: 1, width: 1),
                       Expanded(
-                          child:
-                              Text(DateHelper.durationToString(record.time))),
+                          child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child:
+                            Text(DateHelper.durationToString(record.duration)),
+                      )),
                       ElevatedButton(
                         child: Text('Delete'),
                         onPressed: () {

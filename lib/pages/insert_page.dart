@@ -43,7 +43,7 @@ class InsertPage extends StatelessWidget {
               child: Text('Save'),
               onPressed: () {
                 var newRecord = RunRecord(
-                  time: state.lastDuration,
+                  duration: state.lastDuration,
                   createdAt: DateTime.now(),
                   category: state.currCategory,
                 );

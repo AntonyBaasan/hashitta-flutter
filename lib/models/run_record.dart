@@ -2,29 +2,29 @@ import 'package:flutter/material.dart';
 
 class RunRecord {
   String? id;
-  final Duration time;
+  final Duration duration;
   final DateTime createdAt;
   final String category;
   String? runner;
 
   RunRecord(
       {this.id,
-      required this.time,
+      required this.duration,
       required this.createdAt,
       this.runner,
       required this.category});
 
   factory RunRecord.fromJson(Map<String, dynamic> json) => new RunRecord(
       id: json["id"],
-      time: json["time"],
-      createdAt: json["createdAt"],
+      duration: Duration(seconds: json["duration"]),
+      createdAt: DateTime.parse(json["createdAt"]),
       runner: json["runner"],
       category: json["category"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "time": time,
-        "createdAt": createdAt,
+        "duration": duration.inSeconds,
+        "createdAt": createdAt.toIso8601String(),
         "runner": runner,
         "category": category
       };

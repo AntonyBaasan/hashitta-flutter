@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hashitta/services/run_record_service.dart';
+import 'package:hashitta/services/run_record_service_db.dart';
+import 'package:hashitta/services/run_record_service_inmemory.dart';
 
 import '../models/run_record.dart';
+import '../services/abstract_run_record_service.dart';
 
 class MainState extends ChangeNotifier {
+  // counter
   int _counter = 0;
   int get counter => _counter;
   void increment() {
@@ -37,10 +40,12 @@ class MainState extends ChangeNotifier {
   String currUser = 'user1';
 
   // run record
-  RunRecordService _runRecordService = new RunRecordService();
+  AbstractRunRecordService _runRecordService = new RunRecordServiceDb();
+  // AbstractRunRecordService _runRecordService = new RunRecordServiceInMemory();
   List<RunRecord> visibleRecords = [];
 
   void refreshAllRunRecord() async {
+    print("refreshAllRunRecord");
     visibleRecords = await _runRecordService.getRunRecords();
     notifyListeners();
   }

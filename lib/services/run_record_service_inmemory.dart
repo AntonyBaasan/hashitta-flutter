@@ -1,7 +1,9 @@
 import 'package:hashitta/models/run_record.dart';
 import 'package:uuid/uuid.dart';
 
-class RunRecordService {
+import 'abstract_run_record_service.dart';
+
+class RunRecordServiceInMemory implements AbstractRunRecordService {
   Map<String, RunRecord> _runRecords = Map();
 
   Future<List<RunRecord>> getRunRecords() async {

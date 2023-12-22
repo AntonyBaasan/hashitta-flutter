@@ -23,6 +23,8 @@ dev_dependencies:
   duration_picker: "^1.0.0"
   uuid: ^4.2.2
   intl: ^0.19.0
+  sqflite: ^2.3.0
+  path: ^1.8.3
 
 flutter:
 
