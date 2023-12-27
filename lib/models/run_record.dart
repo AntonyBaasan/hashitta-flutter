@@ -1,9 +1,12 @@
+import 'package:intl/intl.dart';
+
 class RunRecord {
   String? id;
   final Duration duration;
   final DateTime createdAt;
   final String category;
   String? runner;
+  String get dayOfRun => DateFormat.yMMMd().format(createdAt).toString();
 
   RunRecord(
       {this.id,

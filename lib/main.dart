@@ -52,54 +52,59 @@ class _BottomNavigationBarExampleState
   Widget build(BuildContext context) {
     var state = context.watch<MainState>();
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(_widgetOptions.elementAt(_selectedIndex).title),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex).widget,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // open insert record page
-          navigateToInserPage(state);
-        },
-        tooltip: 'Increment',
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, size: 38),
-        elevation: 4.0,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-          height: 60,
-          shape: const CircularNotchedRectangle(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                  onPressed: () {
-                    _onItemTapped(0);
-                  },
-                  icon: const Icon(Icons.home)),
-              IconButton(
-                  onPressed: () {
-                    _onItemTapped(1);
-                  },
-                  icon: const Icon(Icons.settings))
-            ],
-          )), // This trailing comma makes auto-formatting nicer for build methods.
+    return Container(
+      color: Theme.of(context).colorScheme.background,
+      child: SafeArea(
+          child: Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        //   title: Text(_widgetOptions.elementAt(_selectedIndex).title),
+        //   centerTitle: true,
+        // ),
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex).widget,
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // open insert record page
+            navigateToInserPage(state);
+          },
+          tooltip: 'New Record',
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add, size: 38),
+          elevation: 4.0,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+            height: 60,
+            shape: const CircularNotchedRectangle(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      _onItemTapped(0);
+                    },
+                    icon: const Icon(Icons.home)),
+                IconButton(
+                    onPressed: () {
+                      _onItemTapped(1);
+                    },
+                    icon: const Icon(Icons.settings))
+              ],
+            )), // This trailing comma makes auto-formatting nicer for build methods.
+      )),
     );
   }
 
   Future<void> navigateToInserPage(MainState state) async {
-    RunRecord record = await Navigator.of(context).push(MaterialPageRoute(
+    RunRecord? record = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => InsertPage(label: "Hello from Main")));
     if (record == null) {
       state.setLabel("Clicked back button");
+    } else {
+      state.insertRunRecord(record);
+      state.refreshAllRunRecord();
     }
-    state.insertRunRecord(record);
-    state.refreshAllRunRecord();
   }
 }
