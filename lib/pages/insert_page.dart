@@ -29,7 +29,7 @@ class InsertPage extends StatelessWidget {
             DurationSeletor(
                 initDuration: state.lastDuration,
                 onChanged: (Duration duration) {
-                  print('duration changed' + duration.toString());
+                  // print('duration changed' + duration.toString());
                   state.lastDuration = duration;
                   state.notifyListeners();
                 }),
@@ -39,16 +39,27 @@ class InsertPage extends StatelessWidget {
             //     state.lastDuration = duration;
             //   },
             // ),
-            ElevatedButton(
-              child: Text('Save'),
-              onPressed: () {
-                var newRecord = RunRecord(
-                  duration: state.lastDuration,
-                  createdAt: DateTime.now(),
-                  category: state.currCategory,
-                );
-                Navigator.pop(context, newRecord);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  child: Text('Save'),
+                  onPressed: () {
+                    var newRecord = RunRecord(
+                      duration: state.lastDuration,
+                      createdAt: DateTime.now(),
+                      category: state.currCategory,
+                    );
+                    Navigator.pop(context, newRecord);
+                  },
+                ),
+                ElevatedButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             ),
           ],
         ),

@@ -17,7 +17,8 @@ class DurationSeletor extends StatelessWidget {
           children: [
             DurationPicker(
               duration: initDuration,
-              baseUnit: BaseUnit.second,
+              // baseUnit: BaseUnit.second,
+              baseUnit: BaseUnit.millisecond,
               onChange: (val) {
                 this.onChanged(val);
               },

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:hashitta/services/run_record_service_db.dart';
 import 'package:hashitta/services/run_record_service_inmemory.dart';
@@ -7,6 +8,12 @@ import '../services/abstract_run_record_service.dart';
 
 class MainState extends ChangeNotifier {
   MainState() {
+    if (kIsWeb) {
+      _runRecordService = new RunRecordServiceInMemory();
+    } else {
+      _runRecordService = new RunRecordServiceDb();
+    }
+
     refreshAllRunRecord();
   }
   // counter
@@ -43,8 +50,8 @@ class MainState extends ChangeNotifier {
   String currUser = 'user1';
 
   // run record
-  AbstractRunRecordService _runRecordService = new RunRecordServiceDb();
-  // AbstractRunRecordService _runRecordService = new RunRecordServiceInMemory();
+  // AbstractRunRecordService _runRecordService = new RunRecordServiceDb();
+  AbstractRunRecordService _runRecordService = new RunRecordServiceInMemory();
   List<RunRecord> visibleRecords = [];
 
   void refreshAllRunRecord() async {

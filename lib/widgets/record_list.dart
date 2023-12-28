@@ -14,7 +14,7 @@ class RecordList extends StatelessWidget {
     return GroupedListView<RunRecord, String>(
         elements: records,
         groupBy: (element) => element.dayOfRun,
-        groupComparator: (value1, value2) => value2.compareTo(value1),
+        groupComparator: (value1, value2) => value1.compareTo(value2),
         itemComparator: (element1, element2) =>
             element1.createdAt.compareTo(element2.createdAt),
         order: GroupedListOrder.DESC,
